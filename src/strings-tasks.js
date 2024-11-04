@@ -487,8 +487,29 @@ function extractEmails(str) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const lowerCaseLetters = 'abcdefghijklmnopqrstuvwxyz';
+  const offset = 13;
+  const { length } = lowerCaseLetters;
+
+  const getMap = (letters) => {
+    const result = {};
+    letters.split('').forEach((char, i) => {
+      result[char] = letters[(i + offset) % length];
+    });
+
+    return result;
+  };
+
+  const lowerCaseLettersMap = getMap(lowerCaseLetters);
+  const upperCaseLettersMap = getMap(lowerCaseLetters.toUpperCase());
+
+  return str.replace(/\w/g, (match) => {
+    const replacement =
+      lowerCaseLettersMap[match] || upperCaseLettersMap[match];
+    if (replacement) return replacement;
+    return match;
+  });
 }
 
 /**
@@ -515,8 +536,63 @@ function encodeToRot13(/* str */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const cards = [
+    'A♣',
+    '2♣',
+    '3♣',
+    '4♣',
+    '5♣',
+    '6♣',
+    '7♣',
+    '8♣',
+    '9♣',
+    '10♣',
+    'J♣',
+    'Q♣',
+    'K♣',
+    'A♦',
+    '2♦',
+    '3♦',
+    '4♦',
+    '5♦',
+    '6♦',
+    '7♦',
+    '8♦',
+    '9♦',
+    '10♦',
+    'J♦',
+    'Q♦',
+    'K♦',
+    'A♥',
+    '2♥',
+    '3♥',
+    '4♥',
+    '5♥',
+    '6♥',
+    '7♥',
+    '8♥',
+    '9♥',
+    '10♥',
+    'J♥',
+    'Q♥',
+    'K♥',
+    'A♠',
+    '2♠',
+    '3♠',
+    '4♠',
+    '5♠',
+    '6♠',
+    '7♠',
+    '8♠',
+    '9♠',
+    '10♠',
+    'J♠',
+    'Q♠',
+    'K♠',
+  ];
+
+  return cards.indexOf(value);
 }
 
 module.exports = {
